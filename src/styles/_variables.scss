@@ -1,0 +1,29 @@
+$colors: (
+  black: (
+    base: #1b2437,
+    darker: #000000
+  ),
+  gray: (
+    base: #d0d9de,
+    light: #fcfcfc
+  ),
+  purple: (
+    base: #b765d3,
+    light: #3626af,
+    dark: #2d2f4e
+  ),
+  white: (
+    base: #ffffff
+  )
+);
+
+$gradient-start: #3023ae;
+$gradient-end: #c86dd7;
+$gradients: (
+  border: linear-gradient(135deg, $gradient-start, $gradient-end),
+  button: linear-gradient(107deg, $gradient-start, $gradient-end),
+  button-secondary: linear-gradient(114deg, $gradient-start, $gradient-end),
+  navbar: linear-gradient(93deg, $gradient-start, $gradient-end)
+);
+
+$sans-serif: 'Avenir', sans-serif;
