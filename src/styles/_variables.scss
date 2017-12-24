@@ -1,11 +1,13 @@
 $colors: (
   black: (
     base: #1b2437,
-    darker: #000000
+    light: #716d6d,
+    dark: #000000
   ),
   gray: (
     base: #d0d9de,
-    light: #fcfcfc
+    light: #fcfcfc,
+    dark: #999999,
   ),
   purple: (
     base: #b765d3,
@@ -23,7 +25,8 @@ $gradients: (
   border: linear-gradient(135deg, $gradient-start, $gradient-end),
   button: linear-gradient(107deg, $gradient-start, $gradient-end),
   button-secondary: linear-gradient(114deg, $gradient-start, $gradient-end),
+  button-success: linear-gradient(311deg, #03a79b, #87c442),
   navbar: linear-gradient(93deg, $gradient-start, $gradient-end)
 );
 
-$sans-serif: 'Avenir', sans-serif;
+$sans-serif: HelveticaNeue, Avenir, sans-serif;

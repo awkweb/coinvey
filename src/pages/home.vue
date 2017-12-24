@@ -20,7 +20,7 @@
 
       <div class="home__coin-cards">
         <router-link
-          :to="{ name: 'Checkout', params: { coinId: coin.id } }"
+          :to="{ name: 'CheckoutInfo', params: { coinId: coin.id } }"
           v-for="coin in coins"
           :key="coin.id"
           class="home__coin-card"
@@ -42,7 +42,7 @@
   export default {
     name: 'Home',
     computed: {
-      ...mapGetters('coinvey', [
+      ...mapGetters([
         'coins',
       ]),
     },
@@ -103,20 +103,18 @@
     max-width: 33rem;
   }
   .home__button {
-    -webkit-appearance: none;
+    @include button;
     background-image: grad(button);
     border: {
       radius: 7px;
       width: 0;
     }
     color: color(white);
-    cursor: pointer;
     font: {
       size: 19.2px;
       weight: 500;
     }
     height: 62px;
-    outline: 0;
     transition: transform .25s;
     width: 240px;
 
@@ -196,7 +194,7 @@
     width: 2.15rem;
 
     @each $coin in (btc, eth, ltc) {
-      &.#{$coin} { background-image: url("../assets/coins/#{$coin}.svg"); }
+      &.#{$coin} { background-image: url("../assets/coins/color/#{$coin}.svg"); }
     }
   }
   .home__coin-card-name {

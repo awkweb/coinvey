@@ -1,3 +1,10 @@
+@mixin button() {
+  -webkit-appearance: none;
+  font-family: $sans-serif;
+  cursor: pointer;
+  outline: 0;
+}
+
 @mixin media-screen( $media, $size: '' ) {
   @if $media == sm {
     @media screen and (min-width: 576px) { @content; }
