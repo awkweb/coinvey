@@ -21,7 +21,7 @@
         <div class="checkout__section-title">Recipient Email:</div>
         <input
           v-model="recipientEmail"
-          class="checkout__input"
+          :class="['checkout__input', { 'success': !$v.recipientEmail.$invalid }]"
           placeholder="Email"
           type="text"
         >
@@ -50,7 +50,8 @@
     </div>
 
     <button
-      class="checkout-review__button"
+      :class="['checkout-review__button', {'disabled': $v.recipientEmail.$invalid}]"
+      :disabled="$v.recipientEmail.$invalid"
     >
       Send
     </button>
@@ -63,6 +64,7 @@
 
 <script>
   import { mapGetters } from 'vuex';
+  import { required, email } from 'vuelidate/lib/validators';
 
   export default {
     name: 'CheckoutReview',
@@ -76,6 +78,9 @@
         get() { return this.$store.state.checkout.recipient.email; },
         set(value) { this.$store.commit('SET_RECIPIENT_EMAIL', value); },
       },
+    },
+    validations: {
+      recipientEmail: { required, email },
     },
   };
 </script>
@@ -195,12 +200,12 @@
     transition: transform .25s;
     width: 12rem;
 
-    &:hover {
-      transform: translateY(-2px);
-    }
-
-    &:active {
-      transform: translateY(1px);
+    &:hover { transform: translateY(-2px); }
+    &:active { transform: translateY(1px); }
+    &.disabled {
+      cursor: not-allowed;
+      opacity: .5;
+      &:hover, &:active { transform: none; }
     }
   }
   .checkout-review__terms {

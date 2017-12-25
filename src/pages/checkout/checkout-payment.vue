@@ -5,7 +5,7 @@
         <div class="checkout__section-title">Recipient Name:</div>
         <input
           v-model="recipientName"
-          class="checkout__input"
+          :class="['checkout__input', { 'success': !$v.recipientName.$invalid }]"
           type="text"
         >
       </div>
@@ -14,7 +14,7 @@
         <div class="checkout__section-title">Recipient Email:</div>
         <input
           v-model="recipientEmail"
-          class="checkout__input"
+          :class="['checkout__input', { 'success': !$v.recipientEmail.$invalid }]"
           placeholder="Email"
           type="text"
         >
@@ -38,7 +38,8 @@
     </div>
 
     <button
-      class="checkout__button"
+      @click="onClickCheckout()"
+      :class="['checkout__button', {'disabled': $v.validationGroup.$invalid}]"
     >
       Checkout
     </button>
@@ -46,6 +47,8 @@
 </template>
 
 <script>
+  import { required, email } from 'vuelidate/lib/validators';
+
   export default {
     name: 'CheckoutPayment',
     computed: {
@@ -61,6 +64,19 @@
         get() { return this.$store.state.checkout.note; },
         set(value) { this.$store.commit('SET_NOTE', value); },
       },
+    },
+    methods: {
+      onClickCheckout() {
+        this.$router.push({ name: 'CheckoutReview' });
+      },
+    },
+    validations: {
+      recipientEmail: { required, email },
+      recipientName: { required },
+      validationGroup: [
+        'recipientName',
+        'recipientEmail',
+      ],
     },
   };
 </script>

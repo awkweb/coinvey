@@ -1,28 +1,21 @@
 <template>
   <div class="checkout-nav">
-    <router-link
-      :to="{ name: 'CheckoutInfo' }"
-      class="checkout-nav__link complete"
-    >
-      Customer Info
-    </router-link>
+    <span class="checkout-nav__link complete">Customer Info</span>
 
-    <router-link
-      :to="{ name: 'CheckoutPayment' }"
+    <span
       :class="[
         'checkout-nav__link',
         this.$route.name === 'CheckoutPayment' || this.$route.name === 'CheckoutReview' ? 'complete' : ''
       ]"
     >
       Recipient & Payment
-    </router-link>
+    </span>
 
-    <router-link
-      :to="{ name: 'CheckoutReview' }"
-      :class="['checkout-nav__link', this.$route.name === 'CheckoutReview' ? 'complete' : '']"
+    <span
+      :class="['checkout-nav__link', {'complete': this.$route.name === 'CheckoutReview'}]"
     >
       Review & Send
-    </router-link>
+    </span>
   </div>
 </template>
 
@@ -49,12 +42,6 @@
       weight: 500;
     }
     height: 100%;
-    outline: 0;
-    text-decoration: none;
-
-    &:hover {
-      text-decoration: underline;
-    }
 
     &:last-child {
       &:after { display: none; }
@@ -64,6 +51,7 @@
       background: {
         image: url("../assets/icons/chevron-right.svg");
         position: center;
+        repeat: no-repeat;
         size: contain;
       }
       content: '';

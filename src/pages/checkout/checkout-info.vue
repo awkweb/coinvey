@@ -4,9 +4,9 @@
       <div class="checkout__section-title">Sender Information</div>
       <input
         v-model="senderEmail"
-        class="checkout__input"
+        :class="['checkout__input', { 'success': !$v.senderEmail.$invalid }]"
         placeholder="Email"
-        type="text"
+        type="email"
       >
     </div>
 
@@ -15,14 +15,14 @@
       <div class="checkout__section-inline">
         <input
           v-model="senderFirstName"
-          class="checkout__input"
+          :class="['checkout__input', { 'success': !$v.senderFirstName.$invalid }]"
           placeholder="First name"
           type="text"
         >
 
         <input
           v-model="senderLastName"
-          class="checkout__input"
+          :class="['checkout__input', { 'success': !$v.senderLastName.$invalid }]"
           placeholder="Last name"
           type="text"
         >
@@ -38,7 +38,7 @@
       <div class="checkout__section-inline">
         <input
           v-model="senderAddress"
-          class="checkout__input flex-7"
+          :class="['checkout__input', 'flex-7', { 'success': !$v.senderAddress.$invalid }]"
           placeholder="Address"
           type="text"
         >
@@ -53,15 +53,15 @@
       <div class="checkout__section-inline">
         <input
           v-model="senderCity"
-          class="checkout__input flex-8"
+          :class="['checkout__input', 'flex-8', { 'success': !$v.senderCity.$invalid }]"
           placeholder="City"
           type="text"
         >
         <input
           v-model="senderZip"
-          class="checkout__input flex-2"
+          :class="['checkout__input', 'flex-2', { 'success': !$v.senderZip.$invalid }]"
           placeholder="Zip code"
-          type="text"
+          type="number"
         >
       </div>
 
@@ -74,7 +74,9 @@
     </div>
 
     <button
-      class="checkout__button"
+      @click="onClickContinue()"
+      :class="['checkout__button', {'disabled': $v.validationGroup.$invalid}]"
+      :disabled="$v.validationGroup.$invalid"
     >
       Continue
     </button>
@@ -82,6 +84,8 @@
 </template>
 
 <script>
+  import { required, email } from 'vuelidate/lib/validators';
+
   export default {
     name: 'CheckoutInfo',
     computed: {
@@ -121,6 +125,27 @@
         get() { return this.$store.state.checkout.sender.phone; },
         set(value) { this.$store.commit('SET_SENDER_PHONE', value); },
       },
+    },
+    methods: {
+      onClickContinue() {
+        this.$router.push({ name: 'CheckoutPayment' });
+      },
+    },
+    validations: {
+      senderEmail: { required, email },
+      senderFirstName: { required },
+      senderLastName: { required },
+      senderAddress: { required },
+      senderCity: { required },
+      senderZip: { required },
+      validationGroup: [
+        'senderEmail',
+        'senderFirstName',
+        'senderLastName',
+        'senderAddress',
+        'senderCity',
+        'senderZip',
+      ],
     },
   };
 </script>

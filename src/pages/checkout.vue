@@ -210,7 +210,6 @@
 
   .checkout__form {
     @include flex-column;
-    height: calc(100vh - 4rem);
   }
   .checkout__section {
     margin-bottom: 1.5rem;
@@ -270,6 +269,20 @@
     &:last-child {
       margin-bottom: 0;
     }
+
+    &[type=number]::-webkit-inner-spin-button,
+    &[type=number]::-webkit-outer-spin-button {
+      -webkit-appearance: none;
+    }
+
+    &.success {
+      background: {
+        image: url("../assets/icons/input-success.svg");
+        position: right 10px center;
+        repeat: no-repeat;
+        size: 20px;
+      };
+    }
   }
   .checkout__textarea {
     -webkit-appearance: none;
@@ -312,12 +325,12 @@
     transition: transform .25s;
     width: 11rem;
 
-    &:hover {
-      transform: translateY(-2px);
-    }
-
-    &:active {
-      transform: translateY(1px);
+    &:hover { transform: translateY(-2px); }
+    &:active { transform: translateY(1px); }
+    &.disabled {
+      cursor: not-allowed;
+      opacity: .5;
+      &:hover, &:active { transform: none; }
     }
   }
 </style>
