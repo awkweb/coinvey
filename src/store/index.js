@@ -15,6 +15,7 @@ const SET_SENDER_APARTMENT = 'SET_SENDER_APARTMENT';
 const SET_SENDER_CITY = 'SET_SENDER_CITY';
 const SET_SENDER_ZIP = 'SET_SENDER_ZIP';
 const SET_SENDER_PHONE = 'SET_SENDER_PHONE';
+const SET_STRIPE_TOKEN = 'SET_STRIPE_TOKEN';
 const SET_RECIPIENT_EMAIL = 'SET_RECIPIENT_EMAIL';
 const SET_RECIPIENT_NAME = 'SET_RECIPIENT_NAME';
 const SET_NOTE = 'SET_NOTE';
@@ -53,6 +54,7 @@ const store = new Vuex.Store({
       { id: 2, amount: 50, active: true },
       { id: 3, amount: 100 },
     ],
+    stripeToken: undefined,
   },
   actions: {},
   mutations: {
@@ -77,6 +79,7 @@ const store = new Vuex.Store({
     [SET_SENDER_CITY](state, city) { state.checkout.sender.address.city = city; },
     [SET_SENDER_ZIP](state, zip) { state.checkout.sender.address.zip = zip; },
     [SET_SENDER_PHONE](state, phone) { state.checkout.sender.phone = phone; },
+    [SET_STRIPE_TOKEN](state, token) { state.stripeToken = token; },
     [SET_RECIPIENT_EMAIL](state, email) { state.checkout.recipient.email = email; },
     [SET_RECIPIENT_NAME](state, name) { state.checkout.recipient.name = name; },
     [SET_NOTE](state, note) { state.checkout.note = note; },
@@ -86,7 +89,6 @@ const store = new Vuex.Store({
     activePriceOption: state => state.priceOptions.find(priceOption => priceOption.active),
     checkout: state => state.checkout,
     coins: state => state.coins,
-    priceOptions: state => state.priceOptions,
     bill: (state) => {
       const activePriceOption = state.priceOptions.find(priceOption => priceOption.active);
       const subtotal = activePriceOption.amount;
@@ -101,6 +103,13 @@ const store = new Vuex.Store({
         total: subtotal + networkFee + convenienceFee,
       };
     },
+    priceOptions: state => state.priceOptions,
+    senderAddress: state => state.checkout.sender.address.street,
+    senderApartment: state => state.checkout.sender.address.apartment,
+    senderCity: state => state.checkout.sender.address.city,
+    senderFullName: state => `${state.checkout.sender.name.first} ${state.checkout.sender.name.last}`,
+    senderZip: state => state.checkout.sender.address.zip,
+    stripeToken: state => state.stripeToken,
   },
 });
 

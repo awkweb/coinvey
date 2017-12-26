@@ -1,11 +1,13 @@
 <template>
-  <div class="checkout__form">
+  <form class="checkout__form">
     <div class="checkout__section">
       <div class="checkout__section-title">Sender Information</div>
       <input
         v-model="senderEmail"
+        v-focus
         :class="['checkout__input', { 'success': !$v.senderEmail.$invalid }]"
         placeholder="Email"
+        spellcheck="false"
         type="email"
       >
     </div>
@@ -17,6 +19,7 @@
           v-model="senderFirstName"
           :class="['checkout__input', { 'success': !$v.senderFirstName.$invalid }]"
           placeholder="First name"
+          spellcheck="false"
           type="text"
         >
 
@@ -24,6 +27,7 @@
           v-model="senderLastName"
           :class="['checkout__input', { 'success': !$v.senderLastName.$invalid }]"
           placeholder="Last name"
+          spellcheck="false"
           type="text"
         >
       </div>
@@ -32,6 +36,7 @@
         v-model="senderCompany"
         class="checkout__input"
         placeholder="Company (optional)"
+        spellcheck="false"
         type="text"
       >
 
@@ -40,12 +45,14 @@
           v-model="senderAddress"
           :class="['checkout__input', 'flex-7', { 'success': !$v.senderAddress.$invalid }]"
           placeholder="Address"
+          spellcheck="false"
           type="text"
         >
         <input
           v-model="senderApartment"
           class="checkout__input flex-3"
           placeholder="Apt, suite, etc. (optional)"
+          spellcheck="false"
           type="text"
         >
       </div>
@@ -55,13 +62,15 @@
           v-model="senderCity"
           :class="['checkout__input', 'flex-8', { 'success': !$v.senderCity.$invalid }]"
           placeholder="City"
+          spellcheck="false"
           type="text"
         >
         <input
           v-model="senderZip"
           :class="['checkout__input', 'flex-2', { 'success': !$v.senderZip.$invalid }]"
           placeholder="Zip code"
-          type="number"
+          spellcheck="false"
+          type="text"
         >
       </div>
 
@@ -69,18 +78,20 @@
         v-model="senderPhone"
         class="checkout__input"
         placeholder="Phone (optional)"
+        spellcheck="false"
         type="text"
       >
     </div>
 
     <button
-      @click="onClickContinue()"
+      @click.prevent="onClickContinue()"
+      @keyup.enter="onClickContinue()"
       :class="['checkout__button', {'disabled': $v.validationGroup.$invalid}]"
       :disabled="$v.validationGroup.$invalid"
     >
       Continue
     </button>
-  </div>
+  </form>
 </template>
 
 <script>

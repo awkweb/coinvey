@@ -31,12 +31,11 @@
   @import "../styles/_mixins.scss";
 
   .checkout-nav {
-    @include flex-row;
     margin-bottom: 2rem;
   }
   .checkout-nav__link {
     color: color(gray, dark);
-    display: flex;
+    display: inline-flex;
     font: {
       size: .7rem;
       weight: 500;

@@ -1,5 +1,5 @@
 <template>
-  <div class="checkout__form">
+  <form class="checkout__form">
     <div class="checkout-review__section">
       <div class="checkout__section-title review">Review Order</div>
 
@@ -50,7 +50,9 @@
     </div>
 
     <button
-      :class="['checkout-review__button', {'disabled': $v.recipientEmail.$invalid}]"
+      @click.prevent="onClickSend()"
+      @keyup.enter="onClickSend()"
+      :class="['checkout-review__button', { 'disabled': $v.recipientEmail.$invalid }]"
       :disabled="$v.recipientEmail.$invalid"
     >
       Send
@@ -59,7 +61,7 @@
     <div class="checkout-review__terms">
       By hitting send, you agree to our <router-link :to="{ name: 'Home' }">Terms & Conditions.</router-link>
     </div>
-  </div>
+  </form>
 </template>
 
 <script>
@@ -77,6 +79,11 @@
       recipientEmail: {
         get() { return this.$store.state.checkout.recipient.email; },
         set(value) { this.$store.commit('SET_RECIPIENT_EMAIL', value); },
+      },
+    },
+    methods: {
+      onClickSend() {
+        return false;
       },
     },
     validations: {
