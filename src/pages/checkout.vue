@@ -4,35 +4,39 @@
     class="checkout"
   >
     <div class="checkout__left">
-      <router-link
-        :to="{ name: 'Home' }"
-        class="checkout__back"
-      >
-        Back
-      </router-link>
-
-      <div :class="['checkout__coin', activeCoin.id]">
-      </div>
-
-      <h1 class="checkout__title">Select Amount</h1>
-      <div class="checkout__description">Select how much {{ activeCoin.currency }} you’d like to gift:</div>
-
-      <div class="checkout__price-options">
-        <button
-          v-for="priceOption in priceOptions"
-          :class="['checkout__price-option', priceOption.active ? 'active' : '']"
-          :key="priceOption.id"
-          @click="onClickPriceOption(priceOption.id)"
+      <div class="checkout__left-container">
+        <router-link
+          :to="{ name: 'Home' }"
+          class="checkout__back"
         >
-          ${{priceOption.amount}}
-        </button>
+          Back
+        </router-link>
+
+        <div :class="['checkout__coin', activeCoin.id]">
+        </div>
+
+        <h1 class="checkout__title">Select Amount</h1>
+        <div class="checkout__description">Select how much {{ activeCoin.currency }} you’d like to gift:</div>
+
+        <div class="checkout__price-options">
+          <button
+            v-for="priceOption in priceOptions"
+            :class="['checkout__price-option', priceOption.active ? 'active' : '']"
+            :key="priceOption.id"
+            @click="onClickPriceOption(priceOption.id)"
+          >
+            ${{priceOption.amount}}
+          </button>
+        </div>
       </div>
     </div>
 
     <div class="checkout__right">
-      <h2 class="checkout__steps-title">Checkout</h2>
-      <checkout-nav/>
-      <router-view/>
+      <div class="checkout__right-container">
+        <h2 class="checkout__steps-title">Checkout</h2>
+        <checkout-nav/>
+        <router-view/>
+      </div>
     </div>
   </div>
 </template>
@@ -82,14 +86,28 @@
     display: flex;
     min-height: calc(100vh - 4rem);
   }
-  .checkout__left, .checkout__right {
-    @include flex-column;
+  .checkout__left,
+  .checkout__right {
     min-height: calc(100vh - 4rem);
     width: 50vw;
   }
   .checkout__left {
-    align-items: center;
+    @include flex-column;
+    align-items: flex-end;
     background-color: color(gray, light);
+    flex-direction: column;
+  }
+  .checkout__right {
+    background-color: color(white);
+  }
+  .checkout__left-container,
+  .checkout__right-container {
+    @include flex-column;
+    max-width: 40rem;
+    width: 100%;
+  }
+  .checkout__left-container {
+    align-items: center;
     padding: {
       bottom: 1.65rem;
       left: 2.5rem;
@@ -98,8 +116,7 @@
     }
     text-align: center;
   }
-  .checkout__right {
-    background-color: color(white);
+  .checkout__right-container {
     padding: {
       left: 5rem;
       right: 5rem;

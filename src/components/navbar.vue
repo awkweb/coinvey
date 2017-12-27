@@ -1,36 +1,38 @@
 <template>
   <nav class="navbar">
-    <div class="navbar__left">
-      <router-link
-        :to="{ name: 'Home' }"
-        class="navbar__tile"
-      >
-        Coinvey
-      </router-link>
-    </div>
-
-    <div class="navbar__right">
-      <div class="navbar__links">
+    <div class="navbar-container">
+      <div class="navbar__left">
         <router-link
           :to="{ name: 'Home' }"
-          class="navbar__link"
+          class="navbar__tile"
         >
-          How It Works
+          Coinvey
         </router-link>
+      </div>
 
-        <router-link
-          :to="{ name: 'Home' }"
-          class="navbar__link"
-        >
-          Contact Us
-        </router-link>
+      <div class="navbar__right">
+        <div class="navbar__links">
+          <router-link
+            :to="{ name: 'Home' }"
+            class="navbar__link"
+          >
+            How It Works
+          </router-link>
 
-        <router-link
-          :to="{ name: 'Home' }"
-          class="navbar__link"
-        >
-          Share
-        </router-link>
+          <router-link
+            :to="{ name: 'Home' }"
+            class="navbar__link"
+          >
+            Contact Us
+          </router-link>
+
+          <router-link
+            :to="{ name: 'Home' }"
+            class="navbar__link"
+          >
+            Share
+          </router-link>
+        </div>
       </div>
     </div>
   </nav>
@@ -51,13 +53,21 @@
     background-image: grad(navbar);
     display: flex;
     height: 4rem;
-    justify-content: space-between;
-    padding: {
-      left: 45px;
-      right: 45px;
-    }
+    justify-content: center;
   }
-  .navbar__left, .navbar__right {
+  .navbar-container {
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+    max-width: $max-width;
+    padding: {
+      left: 2.5rem;
+      right: 2.5rem;
+    }
+    width: 100%;
+  }
+  .navbar__left,
+  .navbar__right {
     align-items: center;
     display: flex;
     justify-content: space-between;

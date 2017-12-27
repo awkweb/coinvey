@@ -22,28 +22,26 @@ const SET_NOTE = 'SET_NOTE';
 
 const store = new Vuex.Store({
   state: {
-    checkout: {
-      sender: {
-        address: {
-          apartment: undefined,
-          city: undefined,
-          street: undefined,
-          zip: undefined,
-        },
-        company: undefined,
-        email: undefined,
-        name: {
-          first: undefined,
-          last: undefined,
-        },
-        phone: undefined,
+    sender: {
+      address: {
+        apartment: undefined,
+        city: undefined,
+        street: undefined,
+        zip: undefined,
       },
-      recipient: {
-        email: undefined,
-        name: undefined,
+      company: undefined,
+      email: undefined,
+      name: {
+        first: undefined,
+        last: undefined,
       },
-      note: undefined,
+      phone: undefined,
     },
+    recipient: {
+      email: undefined,
+      name: undefined,
+    },
+    note: undefined,
     coins: [
       { id: 'btc', name: 'Bitcoin', currency: 'bitcoin' },
       { id: 'eth', name: 'Ethereum', currency: 'ether' },
@@ -70,24 +68,23 @@ const store = new Vuex.Store({
         return priceOption;
       });
     },
-    [SET_SENDER_EMAIL](state, email) { state.checkout.sender.email = email; },
-    [SET_SENDER_FIRST_NAME](state, name) { state.checkout.sender.name.first = name; },
-    [SET_SENDER_LAST_NAME](state, name) { state.checkout.sender.name.last = name; },
-    [SET_SENDER_COMPANY](state, company) { state.checkout.sender.company = company; },
-    [SET_SENDER_STREET](state, street) { state.checkout.sender.address.street = street; },
-    [SET_SENDER_APARTMENT](state, apt) { state.checkout.sender.address.apartment = apt; },
-    [SET_SENDER_CITY](state, city) { state.checkout.sender.address.city = city; },
-    [SET_SENDER_ZIP](state, zip) { state.checkout.sender.address.zip = zip; },
-    [SET_SENDER_PHONE](state, phone) { state.checkout.sender.phone = phone; },
+    [SET_SENDER_EMAIL](state, email) { state.sender.email = email; },
+    [SET_SENDER_FIRST_NAME](state, name) { state.sender.name.first = name; },
+    [SET_SENDER_LAST_NAME](state, name) { state.sender.name.last = name; },
+    [SET_SENDER_COMPANY](state, company) { state.sender.company = company; },
+    [SET_SENDER_STREET](state, street) { state.sender.address.street = street; },
+    [SET_SENDER_APARTMENT](state, apt) { state.sender.address.apartment = apt; },
+    [SET_SENDER_CITY](state, city) { state.sender.address.city = city; },
+    [SET_SENDER_ZIP](state, zip) { state.sender.address.zip = zip; },
+    [SET_SENDER_PHONE](state, phone) { state.sender.phone = phone; },
     [SET_STRIPE_TOKEN](state, token) { state.stripeToken = token; },
-    [SET_RECIPIENT_EMAIL](state, email) { state.checkout.recipient.email = email; },
-    [SET_RECIPIENT_NAME](state, name) { state.checkout.recipient.name = name; },
-    [SET_NOTE](state, note) { state.checkout.note = note; },
+    [SET_RECIPIENT_EMAIL](state, email) { state.recipient.email = email; },
+    [SET_RECIPIENT_NAME](state, name) { state.recipient.name = name; },
+    [SET_NOTE](state, note) { state.note = note; },
   },
   getters: {
     activeCoin: state => state.coins.find(coin => coin.active),
     activePriceOption: state => state.priceOptions.find(priceOption => priceOption.active),
-    checkout: state => state.checkout,
     coins: state => state.coins,
     bill: (state) => {
       const activePriceOption = state.priceOptions.find(priceOption => priceOption.active);
@@ -104,12 +101,8 @@ const store = new Vuex.Store({
       };
     },
     priceOptions: state => state.priceOptions,
-    senderAddress: state => state.checkout.sender.address.street,
-    senderApartment: state => state.checkout.sender.address.apartment,
-    senderCity: state => state.checkout.sender.address.city,
-    senderFullName: state => `${state.checkout.sender.name.first} ${state.checkout.sender.name.last}`,
-    senderZip: state => state.checkout.sender.address.zip,
-    stripeToken: state => state.stripeToken,
+    sender: state => state.sender,
+    senderFullName: state => `${state.sender.name.first} ${state.sender.name.last}`,
   },
 });
 

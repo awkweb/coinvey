@@ -77,7 +77,7 @@
         'bill',
       ]),
       recipientEmail: {
-        get() { return this.$store.state.checkout.recipient.email; },
+        get() { return this.$store.state.recipient.email; },
         set(value) { this.$store.commit('SET_RECIPIENT_EMAIL', value); },
       },
     },

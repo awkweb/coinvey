@@ -89,22 +89,19 @@
     }),
     computed: {
       ...mapGetters([
-        'senderAddress',
-        'senderApartment',
-        'senderCity',
+        'sender',
         'senderFullName',
-        'senderZip',
       ]),
       recipientEmail: {
-        get() { return this.$store.state.checkout.recipient.email; },
+        get() { return this.$store.state.recipient.email; },
         set(value) { this.$store.commit('SET_RECIPIENT_EMAIL', value); },
       },
       recipientName: {
-        get() { return this.$store.state.checkout.recipient.name; },
+        get() { return this.$store.state.recipient.name; },
         set(value) { this.$store.commit('SET_RECIPIENT_NAME', value); },
       },
       note: {
-        get() { return this.$store.state.checkout.note; },
+        get() { return this.$store.state.note; },
         set(value) { this.$store.commit('SET_NOTE', value); },
       },
     },

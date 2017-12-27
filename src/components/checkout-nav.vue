@@ -48,7 +48,7 @@
 
     &:after {
       background: {
-        image: url("../assets/icons/chevron-right.svg");
+        /*image: url("../assets/icons/chevron-right.svg");*/
         position: center;
         repeat: no-repeat;
         size: contain;

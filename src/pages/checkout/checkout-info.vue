@@ -101,39 +101,39 @@
     name: 'CheckoutInfo',
     computed: {
       senderEmail: {
-        get() { return this.$store.state.checkout.sender.email; },
+        get() { return this.$store.state.sender.email; },
         set(value) { this.$store.commit('SET_SENDER_EMAIL', value); },
       },
       senderFirstName: {
-        get() { return this.$store.state.checkout.sender.name.first; },
+        get() { return this.$store.state.sender.name.first; },
         set(value) { this.$store.commit('SET_SENDER_FIRST_NAME', value); },
       },
       senderLastName: {
-        get() { return this.$store.state.checkout.sender.name.last; },
+        get() { return this.$store.state.sender.name.last; },
         set(value) { this.$store.commit('SET_SENDER_LAST_NAME', value); },
       },
       senderCompany: {
-        get() { return this.$store.state.checkout.sender.company; },
+        get() { return this.$store.state.sender.company; },
         set(value) { this.$store.commit('SET_SENDER_COMPANY', value); },
       },
       senderAddress: {
-        get() { return this.$store.state.checkout.sender.address.street; },
+        get() { return this.$store.state.sender.address.street; },
         set(value) { this.$store.commit('SET_SENDER_STREET', value); },
       },
       senderApartment: {
-        get() { return this.$store.state.checkout.sender.address.apartment; },
+        get() { return this.$store.state.sender.address.apartment; },
         set(value) { this.$store.commit('SET_SENDER_APARTMENT', value); },
       },
       senderCity: {
-        get() { return this.$store.state.checkout.sender.address.city; },
+        get() { return this.$store.state.sender.address.city; },
         set(value) { this.$store.commit('SET_SENDER_CITY', value); },
       },
       senderZip: {
-        get() { return this.$store.state.checkout.sender.address.zip; },
+        get() { return this.$store.state.sender.address.zip; },
         set(value) { this.$store.commit('SET_SENDER_ZIP', value); },
       },
       senderPhone: {
-        get() { return this.$store.state.checkout.sender.phone; },
+        get() { return this.$store.state.sender.phone; },
         set(value) { this.$store.commit('SET_SENDER_PHONE', value); },
       },
     },
