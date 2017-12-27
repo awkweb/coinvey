@@ -68,7 +68,7 @@
     data: () => ({
       stripe: {
         complete: false,
-        key: 'pk_test_VFndrTFCnus2nq4FHBQIseds',
+        key: process.env.stripe.key,
         options: {
           // see https://stripe.com/docs/stripe.js#element-options for details
           classes: { base: 'stripe-card' },
@@ -112,12 +112,12 @@
       onClickCheckout() {
         const options = {
           name: this.senderFullName,
-          address_city: this.senderCity,
-          address_line1: this.senderAddress,
-          address_zip: this.senderZip,
+          address_city: this.sender.address.city,
+          address_line1: this.sender.address.street,
+          address_zip: this.sender.address.zip,
         };
         if (this.senderApartment) {
-          options.address_line2 = this.senderApartment;
+          options.address_line2 = this.sender.address.apartment;
         }
         createToken(options)
           .then((data) => {

@@ -1,4 +1,7 @@
-'use strict'
+'use strict';
+const secrets = require("./secrets");
+
 module.exports = {
-  NODE_ENV: '"production"'
-}
+  NODE_ENV: '"production"',
+  firebase: secrets.firebase,
+};

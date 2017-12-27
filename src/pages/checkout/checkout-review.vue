@@ -52,10 +52,10 @@
     <button
       @click.prevent="onClickSend()"
       @keyup.enter="onClickSend()"
-      :class="['checkout-review__button', { 'disabled': $v.recipientEmail.$invalid }]"
-      :disabled="$v.recipientEmail.$invalid"
+      :class="['checkout-review__button', { 'disabled': $v.recipientEmail.$invalid || sending }]"
+      :disabled="$v.recipientEmail.$invalid || sending"
     >
-      Send
+      {{ sending ? 'Sending...' : 'Send' }}
     </button>
 
     <div class="checkout-review__terms">
@@ -67,14 +67,22 @@
 <script>
   import { mapGetters } from 'vuex';
   import { required, email } from 'vuelidate/lib/validators';
+  import api from '../../api';
 
   export default {
     name: 'CheckoutReview',
+    data: () => ({
+      error: false,
+      sending: false,
+    }),
     computed: {
       ...mapGetters([
         'activeCoin',
         'activePriceOption',
         'bill',
+        'recipient',
+        'stripeToken',
+        'sender',
       ]),
       recipientEmail: {
         get() { return this.$store.state.recipient.email; },
@@ -83,7 +91,25 @@
     },
     methods: {
       onClickSend() {
-        return false;
+        this.sending = true;
+        api
+          .checkout(
+            this.activeCoin.id,
+            this.activePriceOption.amount,
+            this.bill.total,
+            this.stripeToken,
+            this.sender,
+            this.recipient,
+            this.note,
+          )
+          .then(() => {
+            this.sending = false;
+            this.$router.push({ name: 'Success' });
+          })
+          .catch((err) => {
+            this.error = err;
+            this.sending = false;
+          });
       },
     },
     validations: {

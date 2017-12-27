@@ -1,7 +1,6 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 
-
 Vue.use(Vuex);
 
 const SET_ACTIVE_COIN = 'SET_ACTIVE_COIN';
@@ -24,24 +23,24 @@ const store = new Vuex.Store({
   state: {
     sender: {
       address: {
-        apartment: undefined,
-        city: undefined,
-        street: undefined,
-        zip: undefined,
+        apartment: null,
+        city: null,
+        street: null,
+        zip: null,
       },
-      company: undefined,
-      email: undefined,
+      company: null,
+      email: null,
       name: {
-        first: undefined,
-        last: undefined,
+        first: null,
+        last: null,
       },
-      phone: undefined,
+      phone: null,
     },
     recipient: {
-      email: undefined,
-      name: undefined,
+      email: null,
+      name: null,
     },
-    note: undefined,
+    note: null,
     coins: [
       { id: 'btc', name: 'Bitcoin', currency: 'bitcoin' },
       { id: 'eth', name: 'Ethereum', currency: 'ether' },
@@ -52,7 +51,7 @@ const store = new Vuex.Store({
       { id: 2, amount: 50, active: true },
       { id: 3, amount: 100 },
     ],
-    stripeToken: undefined,
+    stripeToken: null,
   },
   actions: {},
   mutations: {
@@ -88,8 +87,10 @@ const store = new Vuex.Store({
     coins: state => state.coins,
     bill: (state) => {
       const activePriceOption = state.priceOptions.find(priceOption => priceOption.active);
+      const activeCoin = state.coins.find(coin => coin.active);
       const subtotal = activePriceOption.amount;
-      const networkFee = 4.32;
+      const multiplier = activeCoin.name === 'btc' ? 0.0025 : 0.003;
+      const networkFee = subtotal * multiplier;
       const convenienceFee = 1;
       return {
         rows: [
@@ -100,9 +101,12 @@ const store = new Vuex.Store({
         total: subtotal + networkFee + convenienceFee,
       };
     },
+    note: state => state.note,
     priceOptions: state => state.priceOptions,
+    recipient: state => state.recipient,
     sender: state => state.sender,
     senderFullName: state => `${state.sender.name.first} ${state.sender.name.last}`,
+    stripeToken: state => state.stripeToken,
   },
 });
 

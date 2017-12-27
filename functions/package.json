@@ -1,0 +1,17 @@
+{
+  "name": "coinvey-functions",
+  "description": "Cloud Functions for Coinvey",
+  "scripts": {
+    "serve": "firebase serve --only functions",
+    "shell": "firebase experimental:functions:shell",
+    "start": "yarn run shell",
+    "deploy": "firebase deploy --only functions",
+    "logs": "firebase functions:log"
+  },
+  "dependencies": {
+    "firebase-admin": "~5.4.2",
+    "firebase-functions": "^0.7.1",
+    "mailgun.js": "^2.0.1"
+  },
+  "private": true
+}
