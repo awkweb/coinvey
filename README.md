@@ -1,6 +1,6 @@
-# coinvey
+# Coinvey
 
-> send crypto as a gift
+> Send Bitcoin as a gift.
 
 ## Build Setup
 
@@ -9,7 +9,7 @@
 yarn install
 
 # serve with hot reload at localhost:8080
-yarn run dev
+yarn run devc
 
 # build for production with minification
 yarn run build
@@ -20,5 +20,3 @@ yarn run build --report
 # deploy to firebase
 yarn run deploy
 ```
-
-For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).

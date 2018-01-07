@@ -68,9 +68,7 @@
     &.hide-envelope {
       .envelope__container {
         &:before,
-        &:after {
-          display: none;
-        }
+        &:after { display: none; }
       }
     }
   }
