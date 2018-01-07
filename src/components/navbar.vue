@@ -3,34 +3,38 @@
     <div class="navbar-container">
       <div class="navbar__left">
         <router-link
-          :to="{ name: 'Home' }"
-          class="navbar__tile"
+          :to="{ name: 'HomeIndex' }"
+          class="navbar__title"
         >
-          Coinvey
+          <img
+            src="../assets/logos/logo.svg"
+            alt="Coinvey"
+          >
         </router-link>
       </div>
 
       <div class="navbar__right">
         <div class="navbar__links">
           <router-link
-            :to="{ name: 'Home' }"
+            :to="{ name: 'HomeHow' }"
             class="navbar__link"
           >
             How It Works
           </router-link>
 
           <router-link
-            :to="{ name: 'Home' }"
+            :to="{ name: 'HomeIndex' }"
             class="navbar__link"
           >
             Contact Us
           </router-link>
 
           <router-link
-            :to="{ name: 'Home' }"
+            :to="{ name: 'HomeIndex' }"
             class="navbar__link"
           >
             Share
+            <img src="../assets/icons/share.svg">
           </router-link>
         </div>
       </div>
@@ -47,59 +51,54 @@
 <style lang="scss" scoped>
   @import "../styles/_variables.scss";
   @import "../styles/_functions.scss";
+  @import "../styles/_mixins.scss";
 
   .navbar {
-    align-items: center;
+    @include flex-center;
     background-image: grad(navbar);
     display: flex;
     height: 4rem;
-    justify-content: center;
   }
   .navbar-container {
+    @include flex-row;
     align-items: center;
-    display: flex;
     justify-content: space-between;
     max-width: $max-width;
     padding: {
-      left: 2.5rem;
+      left: 4rem;
       right: 2.5rem;
     }
     width: 100%;
   }
   .navbar__left,
   .navbar__right {
+    @include flex-row;
     align-items: center;
-    display: flex;
     justify-content: space-between;
   }
-  .navbar__tile {
+  .navbar__title {
+    @include flex-row;
+    @include flex-center;
     color: color(white);
-    font: {
-      size: 2rem;
-      weight: 600;
-    }
     letter-spacing: -0.9px;
     text-decoration: none;
+    img { margin-top: .5rem; }
   }
   .navbar__links {
+    @include flex-row;
     align-items: center;
-    display: flex;
   }
   .navbar__link {
+    @include flex-row;
+    @include flex-center;
     color: color(white);
     font: {
       size: .9rem;
-      weight: 600;
+      weight: 500;
     }
-    margin-right: 2rem;
+    margin-right: 2.35rem;
     text-decoration: none;
-
-    &:last-child {
-      margin-right: 0;
-    }
-
-    &:hover {
-      text-decoration: underline;
-    }
+    img { margin-left: .5rem; }
+    &:last-child { margin-right: 0; }
   }
 </style>

@@ -6,15 +6,15 @@
   "private": true,
   "scripts": {
     "dev": "webpack-dev-server --inline --progress --config build/webpack.dev.conf.js",
-    "start": "npm run dev",
+    "start": "yarn run dev",
     "lint": "eslint --ext .js,.vue src",
     "build": "node build/build.js",
     "deploy": "firebase deploy"
   },
   "dependencies": {
-    "axios": "^0.17.1",
     "firebase": "^4.8.1",
     "vue": "^2.5.2",
+    "vue-meta": "^1.4.0",
     "vue-router": "^3.0.1",
     "vue-stripe-elements-plus": "^0.2.6",
     "vuelidate": "^0.6.1",

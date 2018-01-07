@@ -1,40 +1,43 @@
 <template>
   <div
     v-if="activeCoin"
-    class="checkout"
+    class="send"
   >
-    <div class="checkout__left">
-      <div class="checkout__left-container">
-        <router-link
-          :to="{ name: 'Home' }"
-          class="checkout__back"
+    <div class="send__left">
+      <router-link
+        :to="{ name: getBackRouteName() }"
+        class="send__back"
+      >
+        <img src="../assets/icons/chevron-left.svg">
+        Back
+      </router-link>
+
+      <div class="send__left-container">
+        <envelope
+          :title="'Gift Amount'"
+          :description="`Select how much <b>${activeCoin.currency}</b> you’d like to gift:`"
         >
-          Back
-        </router-link>
-
-        <div :class="['checkout__coin', activeCoin.id]">
-        </div>
-
-        <h1 class="checkout__title">Select Amount</h1>
-        <div class="checkout__description">Select how much {{ activeCoin.currency }} you’d like to gift:</div>
-
-        <div class="checkout__price-options">
-          <button
-            v-for="priceOption in priceOptions"
-            :class="['checkout__price-option', priceOption.active ? 'active' : '']"
-            :key="priceOption.id"
-            @click="onClickPriceOption(priceOption.id)"
-          >
+          <div class="send__price-options">
+            <button
+              v-for="priceOption in priceOptions"
+              :class="['send__price-option', priceOption.active ? 'active' : '']"
+              :key="priceOption.id"
+              @click="onClickPriceOption(priceOption.id)"
+            >
             ${{priceOption.amount}}
-          </button>
-        </div>
+            </button>
+          </div>
+        </envelope>
       </div>
     </div>
 
-    <div class="checkout__right">
-      <div class="checkout__right-container">
-        <h2 class="checkout__steps-title">Checkout</h2>
-        <checkout-nav/>
+    <div
+      v-if="activePriceOption"
+      class="send__right"
+    >
+      <div class="send__right-container">
+        <h2 class="send__steps-title">Send</h2>
+        <send-nav/>
         <router-view/>
       </div>
     </div>
@@ -43,36 +46,69 @@
 
 <script>
   import { mapGetters, mapMutations } from 'vuex';
-  import CheckoutNav from '@/components/checkout-nav';
+  import { required, email } from 'vuelidate/lib/validators';
+  import SendNav from '@/components/send-nav';
+  import Envelope from '@/components/envelope';
 
   export default {
-    name: 'Checkout',
+    name: 'Send',
     components: {
-      CheckoutNav,
+      SendNav,
+      Envelope,
     },
     watch: {
-      $route: 'initCheckout',
+      $route: 'initSend',
     },
     mounted() {
-      this.initCheckout();
+      this.RESET_APP();
+      this.initSend();
     },
     computed: {
       ...mapGetters([
         'activeCoin',
+        'activePriceOption',
         'priceOptions',
       ]),
     },
     methods: {
       ...mapMutations([
+        'RESET_APP',
         'SET_ACTIVE_COIN',
         'SET_ACTIVE_PRICE_OPTION',
       ]),
-      initCheckout() {
+      initSend() {
         this.SET_ACTIVE_COIN(this.$route.params.coinId);
+      },
+      getBackRouteName() {
+        let routeName;
+        switch (this.$route.name) {
+          case 'SendPayment':
+            routeName = 'SendInfo';
+            break;
+          case 'SendReview':
+            routeName = 'SendPayment';
+            break;
+          default:
+            routeName = 'HomeIndex';
+        }
+        return routeName;
       },
       onClickPriceOption(optionId) {
         this.SET_ACTIVE_PRICE_OPTION(optionId);
       },
+    },
+    validations: {
+      recipientEmail: { required, email },
+      recipientName: { required },
+      senderEmail: { required, email },
+      validationGroup: [
+        'recipientName',
+        'recipientEmail',
+        'senderEmail',
+      ],
+    },
+    metaInfo: {
+      title: 'Select',
     },
   };
 </script>
@@ -82,136 +118,97 @@
   @import "../styles/_functions.scss";
   @import "../styles/_mixins.scss";
 
-  .checkout {
+  .send {
+    background-color: color(gray, light);
     display: flex;
     min-height: calc(100vh - 4rem);
   }
-  .checkout__left,
-  .checkout__right {
+  .send__left,
+  .send__right {
+    flex: 1;
     min-height: calc(100vh - 4rem);
-    width: 50vw;
   }
-  .checkout__left {
+  .send__left {
     @include flex-column;
-    align-items: flex-end;
-    background-color: color(gray, light);
+    @include flex-center;
     flex-direction: column;
+    position: relative;
   }
-  .checkout__right {
+  .send__right {
     background-color: color(white);
   }
-  .checkout__left-container,
-  .checkout__right-container {
+  .send__left-container,
+  .send__right-container {
     @include flex-column;
     max-width: 40rem;
     width: 100%;
   }
-  .checkout__left-container {
+  .send__left-container {
     align-items: center;
     padding: {
       bottom: 1.65rem;
       left: 2.5rem;
       right: 2.5rem;
-      top: 1.65rem;
+      top: 5rem;
     }
     text-align: center;
   }
-  .checkout__right-container {
+  .send__right-container {
     padding: {
       left: 5rem;
       right: 5rem;
       top: 2.75rem;
     }
   }
-  .checkout__back {
-    align-self: flex-start;
+  .send__back {
+    @include flex-row;
+    @include flex-center;
     font: {
       size: 18px;
       weight: 300;
     }
+    left: 2rem;
     letter-spacing: 0.1px;
     line-height: 1.78;
-    margin-bottom: 2.6rem;
+    position: absolute;
     text-decoration: none;
-
-    &:hover {
-      text-decoration: underline;
-    }
-
-    &:visited {
-      color: color(black);
-    }
+    top: 2rem;
+    &:visited { color: color(black); }
+    img { margin-right: .75rem; }
   }
-  .checkout__coin {
-    background: {
-      repeat: no-repeat;
-      size: cover;
-    }
-    min-height: 2.85rem;
-    min-width: 2.85rem;
-    margin-bottom: 2rem;
-
-    @each $coin in (btc, eth, ltc) {
-      &.#{$coin} { background-image: url("../assets/coins/color/#{$coin}.svg"); }
-    }
-  }
-  .checkout__title {
-    font-size: 2rem;
-    letter-spacing: -0.5px;
-    line-height: 0.89;
-    margin: {
-      bottom: .65rem;
-      top: 0;
-    }
-  }
-  .checkout__description {
-    font: {
-      size: 1rem;
-      weight: 300;
-    }
-    letter-spacing: 0.1px;
-    line-height: 1.78;
-    margin-bottom: 2rem;
-  }
-  .checkout__price-options {
+  .send__price-options {
     @include flex-column;
+    margin-top: 1.38rem;
   }
-  .checkout__price-option {
+  .send__price-option {
     background-color: color(white);
-    border-radius: 5px;
     border: {
-      color: color(gray);
+      color: #d0d9de;
+      radius: 4px;
       style: solid;
       width: 1px;
     }
     color: color(black);
     cursor: pointer;
-    font: {
-      size: 1.3rem;
-      weight: 600;
-    }
-    min-height: 3.25rem;
-    letter-spacing: 0.2px;
-    margin-bottom: .9rem;
+    font-size: 1rem;
+    letter-spacing: .1px;
+    margin-bottom: .66rem;
+    min-height: 2.77rem;
+    min-width: 14.8rem;
     outline: 0;
-    width: 17rem;
-
-    &:hover {
-      border-color: color(purple);
-      transition: {
-        property: border-color;
-        duration: .25s;
-      }
-    }
-
+    &:hover { border-color: color(purple); }
     &.active {
       background-color: color(purple);
       border: 0;
       color: color(white);
     }
   }
-  .checkout__steps-title {
-    font-size: 1.35rem;
+  .send__steps-title {
+    font: {
+      family: font(body);
+      size: 1.35rem;
+      weight: 600;
+    }
     letter-spacing: -0.6px;
     margin: {
       bottom: 1rem;
@@ -225,28 +222,28 @@
   @import "../styles/_functions.scss";
   @import "../styles/_mixins.scss";
 
-  .checkout__form {
+  .send__form {
     @include flex-column;
   }
-  .checkout__section {
+  .send__section {
     margin-bottom: 1.5rem;
 
     &.review {
       margin-bottom: .75rem;
     }
   }
-  .checkout__section-title {
+  .send__section-title {
     font-size: 1rem;
     margin-bottom: .75rem;
 
     &.review { margin-bottom: 2.25rem; }
     &.textarea { margin-bottom: .5rem; }
   }
-  .checkout__section-inline {
+  .send__section-inline {
     @include flex-row;
     margin-bottom: .75rem;
 
-    .checkout__input {
+    .send__input {
       flex: 1;
       margin: {
         bottom: 0;
@@ -260,7 +257,7 @@
       &.flex-2 { flex: 2; }
     }
   }
-  .checkout__input {
+  .send__input {
     -webkit-appearance: none;
     border: {
       color: color(gray);
@@ -284,17 +281,16 @@
     &::-webkit-input-placeholder { color: color(black, light); }
     &[type=number]::-webkit-inner-spin-button,
     &[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; }
-
     &.success {
       background: {
-        image: url("../assets/icons/input-success.svg");
+        image: url('../assets/icons/input-success.svg');
         position: right 10px center;
         repeat: no-repeat;
         size: 20px;
       };
     }
   }
-  .checkout__textarea {
+  .send__textarea {
     -webkit-appearance: none;
     border: {
       color: color(gray);
@@ -303,7 +299,7 @@
       width: 1px;
     }
     font-size: .8rem;
-    height: 4rem;
+    height: 8rem;
     outline: 0;
     padding: {
       bottom: .5rem;
@@ -314,11 +310,9 @@
     resize: none;
     width: 100%;
 
-    &:focus {
-      border-color: color(gray, dark);
-    }
+    &:focus { border-color: color(gray, dark); }
   }
-  .checkout__button {
+  .send__button {
     @include button;
     align-self: flex-end;
     background-color: color(black, dark);

@@ -6,14 +6,17 @@
 
 <script>
   export default {
-    name: 'Success',
+    name: 'SendSuccess',
+    metaInfo: {
+      title: 'Success!',
+    },
   };
 </script>
 
 <style lang="scss" scoped>
-  @import "../styles/_variables.scss";
-  @import "../styles/_functions.scss";
-  @import "../styles/_mixins.scss";
+  @import "../../styles/_variables.scss";
+  @import "../../styles/_functions.scss";
+  @import "../../styles/_mixins.scss";
 
   .success {
     @include flex-column;

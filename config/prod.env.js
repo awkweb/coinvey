@@ -4,4 +4,5 @@ const secrets = require("./secrets");
 module.exports = {
   NODE_ENV: '"production"',
   firebase: secrets.firebase,
+  stripe: secrets.stripe,
 };

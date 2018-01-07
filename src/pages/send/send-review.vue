@@ -1,49 +1,54 @@
 <template>
-  <form class="checkout__form">
-    <div class="checkout-review__section">
-      <div class="checkout__section-title review">Review Order</div>
+  <form class="send__form">
+    <div class="send-review__section">
+      <div class="send__section-title review">Review Order</div>
 
-      <div class="checkout-review__gift">
-        <div class="checkout-review__gift-left">
+      <div class="send-review__gift">
+        <div class="send-review__gift-left">
           <div
-            :class="['checkout-review__gift-coin', activeCoin.id]"
+            :class="['send-review__gift-coin', activeCoin.id]"
           >
           </div>
-          <div class="checkout-review__gift-description">${{activePriceOption.amount}} Gift of {{activeCoin.name}}</div>
+          <div class="send-review__gift-description">${{activePriceOption.amount}} Gift of {{activeCoin.name}}</div>
         </div>
 
-        <div class="checkout-review__gift-amount">
+        <div class="send-review__gift-amount">
           ${{activePriceOption.amount.toFixed(2)}}
         </div>
       </div>
 
-      <div class="checkout__section review">
-        <div class="checkout__section-title">Recipient Email:</div>
-        <input
+      <div class="send__section review">
+        <input-preview
+          v-model="recipientName"
+          :label="'Recipient Name'"
+          :valid="!$v.recipientName.$invalid"
+        />
+        <input-preview
           v-model="recipientEmail"
-          :class="['checkout__input', { 'success': !$v.recipientEmail.$invalid }]"
-          placeholder="Email"
-          type="text"
-        >
+          :inputType="'email'"
+          :label="'Recipient Email'"
+          :valid="!$v.recipientEmail.$invalid"
+          :showValidity="true"
+        />
       </div>
 
-      <div class="checkout-review__bill">
-        <div class="checkout-review__bill-rows">
+      <div class="send-review__bill">
+        <div class="send-review__bill-rows">
           <div
             v-for="row in bill.rows"
             :key="row.id"
-            class="checkout-review__bill-row"
+            class="send-review__bill-row"
           >
-            <span class="checkout-review__bill-row-item">{{ row.name }}</span>
-            <span class="checkout-review__bill-row-amount">${{ row.amount.toFixed(2) }}</span>
+            <span class="send-review__bill-row-item">{{ row.name }}</span>
+            <span class="send-review__bill-row-amount">${{ row.amount.toFixed(2) }}</span>
           </div>
         </div>
 
-        <div class="checkout-review__bill-total">
-          <span class="checkout-review__bill-row-item">Total</span>
-          <span class="checkout-review__bill-total-right">
-            <span class="checkout-review__bill-total-currency">USD</span>
-            <span class="checkout-review__bill-total-value">${{ bill.total.toFixed(2) }}</span>
+        <div class="send-review__bill-total">
+          <span class="send-review__bill-row-item">Total</span>
+          <span class="send-review__bill-total-right">
+            <span class="send-review__bill-total-currency">USD</span>
+            <span class="send-review__bill-total-value">${{ bill.total.toFixed(2) }}</span>
           </span>
         </div>
       </div>
@@ -52,14 +57,14 @@
     <button
       @click.prevent="onClickSend()"
       @keyup.enter="onClickSend()"
-      :class="['checkout-review__button', { 'disabled': $v.recipientEmail.$invalid || sending }]"
+      :class="['send-review__button', { 'disabled': $v.recipientEmail.$invalid || sending }]"
       :disabled="$v.recipientEmail.$invalid || sending"
     >
       {{ sending ? 'Sending...' : 'Send' }}
     </button>
 
-    <div class="checkout-review__terms">
-      By hitting send, you agree to our <router-link :to="{ name: 'Home' }">Terms & Conditions.</router-link>
+    <div class="send-review__terms">
+      By hitting send, you agree to our <router-link :to="{ name: 'HomeIndex' }">Terms & Conditions.</router-link>
     </div>
   </form>
 </template>
@@ -67,10 +72,14 @@
 <script>
   import { mapGetters } from 'vuex';
   import { required, email } from 'vuelidate/lib/validators';
-  import api from '../../api';
+  import api from '@/api';
+  import InputPreview from '@/components/input-preview';
 
   export default {
-    name: 'CheckoutReview',
+    name: 'SendReview',
+    components: {
+      InputPreview,
+    },
     data: () => ({
       error: false,
       sending: false,
@@ -80,6 +89,7 @@
         'activeCoin',
         'activePriceOption',
         'bill',
+        'note',
         'recipient',
         'stripeToken',
         'sender',
@@ -88,12 +98,16 @@
         get() { return this.$store.state.recipient.email; },
         set(value) { this.$store.commit('SET_RECIPIENT_EMAIL', value); },
       },
+      recipientName: {
+        get() { return this.$store.state.recipient.name; },
+        set(value) { this.$store.commit('SET_RECIPIENT_NAME', value); },
+      },
     },
     methods: {
       onClickSend() {
         this.sending = true;
         api
-          .checkout(
+          .send(
             this.activeCoin.id,
             this.activePriceOption.amount,
             this.bill.total,
@@ -104,7 +118,7 @@
           )
           .then(() => {
             this.sending = false;
-            this.$router.push({ name: 'Success' });
+            this.$router.push({ name: 'SendSuccess' });
           })
           .catch((err) => {
             this.error = err;
@@ -114,6 +128,10 @@
     },
     validations: {
       recipientEmail: { required, email },
+      recipientName: { required },
+    },
+    metaInfo: {
+      title: 'Review',
     },
   };
 </script>
@@ -123,20 +141,20 @@
   @import "../../styles/_functions.scss";
   @import "../../styles/_mixins.scss";
 
-  .checkout-review__section {
+  .send-review__section {
     margin-bottom: 2rem;
   }
-  .checkout-review__gift {
+  .send-review__gift {
     @include flex-row;
     align-items: center;
     justify-content: space-between;
     margin-bottom: 1.75rem;
   }
-  .checkout-review__gift-left {
+  .send-review__gift-left {
     @include flex-row;
     align-items: center;
   }
-  .checkout-review__gift-coin {
+  .send-review__gift-coin {
     background: {
       color: color(purple);
       position: center;
@@ -148,19 +166,19 @@
     width: 70px;
 
     @each $coin in (btc, eth, ltc) {
-      &.#{$coin} { background-image: url("../../assets/coins/white/#{$coin}.svg"); }
+      &.#{$coin} { background-image: url('../../assets/coins/white/#{$coin}.svg'); }
     }
   }
-  .checkout-review__gift-description {
+  .send-review__gift-description {
     font-size: 1rem;
   }
-  .checkout-review__gift-amount {
+  .send-review__gift-amount {
     font: {
       size: 1rem;
       weight: bold;
     }
   }
-  .checkout-review__bill-rows {
+  .send-review__bill-rows {
     border: {
       color: color(gray);
       style: solid;
@@ -174,7 +192,7 @@
       top: 1rem;
     }
   }
-  .checkout-review__bill-row {
+  .send-review__bill-row {
     @include flex-row;
     align-items: center;
     justify-content: space-between;
@@ -184,23 +202,23 @@
       margin-bottom: 0;
     }
   }
-  .checkout-review__bill-row-item,
-  .checkout-review__bill-row-amount {
+  .send-review__bill-row-item,
+  .send-review__bill-row-amount {
     font: {
       size: .8rem;
       weight: 500;
     }
   }
-  .checkout-review__bill-total {
+  .send-review__bill-total {
     @include flex-row;
     align-items: center;
     justify-content: space-between;
   }
-  .checkout-review__bill-total-right {
+  .send-review__bill-total-right {
     @include flex-row;
     align-items: baseline;
   }
-  .checkout-review__bill-total-currency {
+  .send-review__bill-total-currency {
     color: color(gray, dark);
     font: {
       size: .8rem;
@@ -208,13 +226,13 @@
     }
     margin-right: .5rem;
   }
-  .checkout-review__bill-total-value {
+  .send-review__bill-total-value {
     font: {
       size: 1rem;
       weight: bold;
     }
   }
-  .checkout-review__button {
+  .send-review__button {
     @include button;
     align-self: flex-end;
     background-image: grad(button-success);
@@ -241,7 +259,7 @@
       &:hover, &:active { transform: none; }
     }
   }
-  .checkout-review__terms {
+  .send-review__terms {
     align-self: flex-end;
     color: color(gray, dark);
     font: {

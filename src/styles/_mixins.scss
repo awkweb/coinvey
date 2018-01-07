@@ -1,10 +1,9 @@
 @mixin button() {
   -webkit-appearance: none;
-  font-family: $sans-serif;
+  font-family: font(body);
   cursor: pointer;
   outline: 0;
 }
-
 @mixin media-screen( $media, $size: '' ) {
   @if $media == sm {
     @media screen and (min-width: 576px) { @content; }
@@ -19,17 +18,14 @@
     @media screen and (min-width: 1200px) { @content; }
   }
 }
-
 @mixin flex-column() {
   display: flex;
   flex-direction: column;
 }
-
 @mixin flex-row() {
   display: flex;
   flex-direction: row;
 }
-
 @mixin flex-center() {
   align-items: center;
   justify-content: center;

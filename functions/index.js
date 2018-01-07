@@ -18,6 +18,7 @@ exports.sendOrderConfirmation = functions.firestore
     const text = 'Click here to get your coins :)';
     const html = `
       <h1>This email needs some TLC</h1>
+      <p>${data.note}</p>
       <a href="https://coinvey.firebaseapp.com/">click here to claim your coins...</a>
     `;
     const mgData = {

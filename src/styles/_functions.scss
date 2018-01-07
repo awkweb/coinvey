@@ -1,7 +1,9 @@
 @function color($color, $tone: 'base') {
   @return map-get(map-get($colors, $color), $tone);
 }
-
+@function font($type) {
+  @return map-get($fonts, $type);
+}
 @function grad($type) {
   @return map-get($gradients, $type);
 }

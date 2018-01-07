@@ -6,7 +6,7 @@ $colors: (
   ),
   gray: (
     base: #d0d9de,
-    light: #fcfcfc,
+    light: #f4f7fa,
     dark: #999999,
   ),
   purple: (
@@ -18,7 +18,6 @@ $colors: (
     base: #ffffff
   )
 );
-
 $gradient-start: #3023ae;
 $gradient-end: #c86dd7;
 $gradients: (
@@ -26,8 +25,13 @@ $gradients: (
   button: linear-gradient(107deg, $gradient-start, $gradient-end),
   button-secondary: linear-gradient(114deg, $gradient-start, $gradient-end),
   button-success: linear-gradient(311deg, #03a79b, #87c442),
+  coin: linear-gradient(118deg, #3023ae, #c86dd7),
   navbar: linear-gradient(93deg, $gradient-start, $gradient-end)
 );
-
-$sans-serif: HelveticaNeue, Avenir, sans-serif;
+$font-body: HelveticaNeue, Avenir, sans-serif;
+$font-header: DINNextRoundedLTPro-Medium, HelveticaNeue, sans-serif;
+$fonts: (
+  body: $font-body,
+  header: $font-header,
+);
 $max-width: 80rem;
