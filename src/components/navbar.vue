@@ -7,7 +7,7 @@
           class="navbar__title"
         >
           <img
-            src="../assets/logos/logo.svg"
+            src="../assets/logos/wordmark.svg"
             alt="Coinvey"
           >
         </router-link>

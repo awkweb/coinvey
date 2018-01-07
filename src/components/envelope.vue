@@ -1,18 +1,28 @@
 <template>
-  <div class="envelope">
+  <div
+    :class="[
+      'envelope',
+      {'show-seal': showSeal},
+      {'hide-envelope': hideEnvelope}
+    ]"
+  >
     <div class="envelope__container">
       <div class="envelope__paper">
         <h1 class="envelope__title">{{title}}</h1>
         <div
-          class="envelope__body"
+          v-if="description"
           v-html="description"
+          class="envelope__body"
         >
         </div>
         <slot></slot>
       </div>
     </div>
 
-    <footer class="envelope__footer">
+    <footer
+      v-if="!hideEnvelope"
+      class="envelope__footer"
+    >
       Learn more about our fees
       <router-link :to="{ name: 'HomeIndex' }">here</router-link>.
     </footer>
@@ -24,7 +34,9 @@
     name: 'Envelope',
     props: {
       title: { type: String, required: true },
-      description: { type: String, required: true },
+      description: { type: String },
+      showSeal: { type: Boolean, default: false },
+      hideEnvelope: { type: Boolean, default: false },
     },
   };
 </script>
@@ -34,6 +46,34 @@
   @import "../styles/_functions.scss";
   @import "../styles/_mixins.scss";
 
+  .envelope {
+    position: relative;
+    &.show-seal {
+      &:after {
+        background: {
+          image: url('../assets/illustrations/envelope/seal.svg');
+          repeat: no-repeat;
+          size: contain;
+        }
+        bottom: 9.5rem;
+        content: '';
+        display: block;
+        height: 89px;
+        left: calc(50% - 40.5px);
+        position: absolute;
+        width: 81px;
+        z-index: 1;
+      }
+    }
+    &.hide-envelope {
+      .envelope__container {
+        &:before,
+        &:after {
+          display: none;
+        }
+      }
+    }
+  }
   .envelope__container {
     @include flex-column;
     @include flex-center;
@@ -73,10 +113,11 @@
     color: #232323;
     height: 30rem;
     padding: {
-      left: .5rem;
-      right: .5rem;
+      left: 2rem;
+      right: 2rem;
       top: 2.5rem;
     }
+    position: relative;
     width: 419px;
     z-index: 1;
   }
@@ -87,10 +128,7 @@
     }
     letter-spacing: -1.6px;
     line-height: 0.89;
-    margin: {
-      bottom: .5rem;
-      top: 0;
-    }
+    margin: 0;
     text-align: center;
   }
   .envelope__body {
@@ -99,6 +137,7 @@
       weight: 300;
     }
     line-height: 1.5;
+    margin-top: .5rem;
     text-align: center;
   }
   .envelope__footer {

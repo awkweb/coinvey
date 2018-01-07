@@ -37,6 +37,7 @@
   @import "../styles/_mixins.scss";
 
   .home {
+    background-color: color(purple, dark);
     display: flex;
     height: 100%;
     max-height: calc(100vh - 4rem);
@@ -48,7 +49,6 @@
   .home__left {
     @include flex-column;
     align-items: flex-end;
-    background-color: color(purple, dark);
     flex: 6;
     min-width: 47rem;
     overflow: scroll;

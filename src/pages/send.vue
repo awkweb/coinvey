@@ -36,7 +36,7 @@
       class="send__right"
     >
       <div class="send__right-container">
-        <h2 class="send__steps-title">Send</h2>
+        <h2 class="send__steps-title">Checkout</h2>
         <send-nav/>
         <router-view/>
       </div>
@@ -326,7 +326,10 @@
       weight: 500;
     }
     min-height: 3rem;
-    transition: transform .25s;
+    transition: {
+      property: transform;
+      duration: .25s;
+    }
     width: 11rem;
 
     &:hover { transform: translateY(-2px); }
