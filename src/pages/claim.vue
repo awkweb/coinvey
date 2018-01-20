@@ -135,7 +135,7 @@
     @include flex-column;
     @include flex-center;
     border-top: {
-      color: #f4f7fa;
+      color: color(gray, light);
       style: solid;
       width: 1px;
     }

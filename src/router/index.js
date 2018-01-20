@@ -3,6 +3,7 @@ import Router from 'vue-router';
 import Meta from 'vue-meta';
 import Claim from '@/pages/claim';
 import ClaimSuccess from '@/pages/claim/claim-success';
+import ContactUs from '@/pages/contact-us';
 import Home from '@/pages/home';
 import HomeIndex from '@/pages/home/home-index';
 import HomeFaq from '@/pages/home/home-faq';
@@ -42,6 +43,7 @@ const router = new Router({
       ],
     },
     { path: '/send/:coinId/success', name: 'SendSuccess', component: SendSuccess },
+    { path: '/contact', name: 'ContactUs', component: ContactUs },
     { path: '*', name: 'NotFound', component: NotFound },
   ],
   scrollBehavior(to, from, savedPosition) {

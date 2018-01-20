@@ -23,7 +23,7 @@
           </router-link>
 
           <router-link
-            :to="{ name: 'HomeIndex' }"
+            :to="{ name: 'ContactUs' }"
             class="navbar__link"
           >
             Contact Us

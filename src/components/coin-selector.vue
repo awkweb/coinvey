@@ -39,7 +39,7 @@
     @include flex-center;
     background-color: color(white);
     border-bottom: {
-      color: color(gray);
+      color: #ecf0f4;
       style: solid;
       width: 1px;
     }
