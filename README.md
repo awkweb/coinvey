@@ -4,6 +4,23 @@
 
 ## Build Setup
 
+Set up `config/secrets.js`:
+
+```js
+module.exports = {
+  firebase: {
+    apiKey: '"XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"',
+    authDomain: '"domain.firebaseapp.com"',
+    projectId: '"projectId"',
+  },
+  stripe: {
+    key: '"pk_test_xxxxxxxxxxxxxxxxxxxxxxx"',
+  },
+};
+```
+
+To run from the command line:
+
 ``` bash
 # install dependencies
 yarn install

@@ -1,10 +1,20 @@
 const functions = require('firebase-functions');
-const mailgun = require('mailgun.js');
-const secrets = require('./secrets');
+const campaign = require('campaign');
+const mailgun = require('campaign-mailgun');
+const mustache = require('campaign-mustache');
+const env = require('./config/dev.env');
 
-const MG = mailgun.client({
-  username: 'api',
-  key: secrets.mailgun.key,
+const data = require('./test_data/send-order-confirmation');
+
+const client = campaign({
+  from: 'hello@coinvey.co',
+  layout: null,
+  provider: mailgun({
+    apiKey: env.mailgun.key,
+    authority: `https://${env.mailgun.domain}`,
+  }),
+  templateEngine: mustache,
+  trap: env.mailgun.trap,
 });
 
 exports.sendOrderConfirmation = functions.firestore
@@ -12,25 +22,13 @@ exports.sendOrderConfirmation = functions.firestore
   .onCreate((event) => {
     const data = event.data.data();
     const sender = data.sender;
-    const from = `${sender.name.first} ${sender.name.last} <${sender.email}>`;
-    const to = [data.recipient.email];
-    const subject = `${sender.name.first} just sent you $${data.amount} of ${data.coin.toUpperCase()} from Coinvey!`;
-    const text = 'Click here to get your coins :)';
-    const html = `
-      <h1>This email needs some TLC</h1>
-      <p>${data.note}</p>
-      <a href="https://coinvey.firebaseapp.com/">click here to claim your coins...</a>
-    `;
-    const mgData = {
-      from,
-      to,
-      subject,
-      text,
-      html,
+    const options = {
+      subject: 'Merp',
+      from: 'hello@coinvey.co',
+      to: data.recipient.email,
+      something: 'Merp?',
     };
-    return MG
-      .messages
-      .create(secrets.mailgun.domain, mgData)
-      .then(msg => console.log(msg))
-      .catch(err => console.error(err));
+    const body = require('./emails/email-confirmation.html');
+    client
+      .send(body, options, (err, html) => console.log('MEEEEEEEEEEP', err, html));
   });

@@ -9,9 +9,14 @@
     "logs": "firebase functions:log"
   },
   "dependencies": {
+    "campaign": "^4.1.7",
+    "campaign-mailgun": "^1.1.0",
+    "campaign-mustache": "^1.0.0",
     "firebase-admin": "~5.4.2",
-    "firebase-functions": "^0.7.1",
-    "mailgun.js": "^2.0.1"
+    "firebase-functions": "^0.7.1"
   },
-  "private": true
+  "private": true,
+  "devDependencies": {
+    "campaign-terminal": "^1.0.3"
+  }
 }

@@ -1,5 +1,5 @@
 /config/secrets.js
-/functions/secrets.js
+/functions/config/secrets.js
 
 .DS_Store
 node_modules/

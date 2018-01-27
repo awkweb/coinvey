@@ -1,0 +1,12 @@
+{
+  "recipient": {
+    "email": "tom@meagher.co"
+  },
+  "sender": {
+    "email": "taylor@swift.co",
+    "name": {
+      "first": "Taylor",
+      "last": "Swift"
+    }
+  }
+}

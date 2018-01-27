@@ -1,8 +1,29 @@
 # coinvey-functions
 
-Firebase [cloud functions](https://firebase.google.com/docs/functions/) for Coinvey
+Firebase [cloud functions](https://firebase.google.com/docs/functions/) for [Coinvey](https://coinvey.co).
 
 ## Build Setup
+
+Set up `config/secrets.js`:
+
+```js
+module.exports = {
+  mailgun: {
+    dev: {
+      domain: 'domain.com',
+      key: 'key-XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX',
+      username: 'username',
+    },
+    prod: {
+      domain: 'domain.com',
+      key: 'key-XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX',
+      username: 'username',
+    },
+  },
+};
+```
+
+To run from the command line:
 
 ``` bash
 # install dependencies

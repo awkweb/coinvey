@@ -1,5 +1,5 @@
 'use strict';
-const secrets = require("./secrets");
+const secrets = require('./secrets');
 
 module.exports = {
   NODE_ENV: '"production"',
