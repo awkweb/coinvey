@@ -107,7 +107,7 @@
       onClickSend() {
         this.sending = true;
         api
-          .send(
+          .checkout(
             this.activeCoin.id,
             this.activePriceOption.amount,
             this.bill.total,

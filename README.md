@@ -1,6 +1,6 @@
 # Coinvey
 
-> Send Bitcoin as a gift.
+> Send crypto as a gift.
 
 ## Build Setup
 
@@ -37,3 +37,12 @@ yarn run build --report
 # deploy to firebase
 yarn run deploy
 ```
+
+## Screenshots
+
+![coinvey](screenshots/preview.png)
+
+## License
+
+Released under the MIT license. See LICENSE for details.
+

@@ -92,7 +92,7 @@
       :class="['send__button', { 'disabled': $v.validationGroup.$invalid || !stripe.complete }]"
       :disabled="$v.validationGroup.$invalid || !stripe.complete"
     >
-      Send
+      Review
     </button>
   </form>
 </template>
